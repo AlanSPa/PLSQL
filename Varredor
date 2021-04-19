@@ -1,0 +1,27 @@
+--Primeiro teste
+--Busca por ocorrências com Datas de Registro especifica
+-- 19/04/2021 03:18h
+declare
+  resa varchar2(4000);
+  ocor number;  
+begin
+    for c in (select 
+        ('select count(*) qt from '
+        || table_name
+        || ' where ' 
+        || column_name
+        || ' = ''30/03/1990'''   ) subq
+        ,table_name,column_name
+            from user_tab_columns
+            where data_type = 'DATE')
+    loop 
+    resa := c.subq;
+    execute immediate
+    resa into ocor;
+        if ocor > 0
+            then
+            dbms_output.put_line(c.table_name || ' ' || c.column_name || ' ' || ocor);
+        end if;
+    end loop;
+    end;
+      
