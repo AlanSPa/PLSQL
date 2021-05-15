@@ -1,0 +1,21 @@
+ -- Procedure que cria quantidade de massa de dados em uma determinada tabela a partir da escolha de inserções do usuário.
+ -- A procedure recebe como parâmetro a quantidade de dados que o usuário pretende inserir na tabela USUARIOS.
+ -- Se o usuário informar p_geradados(20), serão criados 20 usuários para teste na Tabela
+   
+   CREATE OR REPLACE PROCEDURE p_geradados(qt in number) 
+    IS 
+    
+        v_id_usuario usuarios.id_usuario%type;
+    BEGIN
+        FOR
+            i in 1..qt
+        LOOP
+            select nvl(max(u.id_usuario),0)+1
+            into v_id_usuario from usuarios u;
+            
+            insert into usuarios values (v_id_usuario, 
+            'Usuario Teste ' || v_id_usuario, 
+            'usuarioteste' || v_id_usuario || '@gmail.com',
+            '(81)98574-152' || v_id_usuario);
+        END LOOP;
+    END p_geradados;
